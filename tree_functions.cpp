@@ -1,3 +1,12 @@
+#include <iostream>
+
+struct Node
+{
+    int iPayload;
+    Node* ptrLeft;
+    Node* ptrRight;
+}
+
 void insertData(Node** ptrRoot, int iNewData)
 {
     Node *ptrLast = *ptrRoot; // para iterar na arvore
