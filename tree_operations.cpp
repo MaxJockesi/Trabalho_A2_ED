@@ -33,22 +33,41 @@ int sizeTree(Node* ptrRoot)
     }
 }
 
+//Função que printa os endereços que possuem o número procurado
 void findTree(Node* ptrRoot, int iNum)
 {
     if(ptrRoot!=nullptr)
     {
+        //Se o ptrRoot tiver o mesmo número que procuramos, printa ele
         if(ptrRoot->iPayload==iNum)
         {
             cout << ptrRoot << endl;
         }
-        if(ptrRoot->iPayload > iNum)
+        //Encontra em qual lado o número pode estar, se for menor estará do lado esquerdo
+        if(iNum < ptrRoot->iPayload)
         {
             findTree(ptrRoot->ptrLeft, iNum);
         }
+        //Do contrário, no lado direito
         else
         {
             findTree(ptrRoot->ptrRight, iNum);
         }
     }
     return;
+}
+
+bool completeTree(Node* ptrRoot)
+{
+    //Se alguns dos filhos for nullptr, então irá conferir se ambos são, do contrário não será completa
+    if(ptrRoot->ptrLeft==nullptr || ptrRoot->ptrRight==nullptr){
+        if(ptrRoot->ptrLeft==nullptr && ptrRoot->ptrRight==nullptr){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    //Confere se ambos os lados do ptrRoot são completos, se um não for, a árvore não será completa
+    return (completeTree(ptrRoot->ptrLeft) && completeTree(ptrRoot->ptrRight));
 }
