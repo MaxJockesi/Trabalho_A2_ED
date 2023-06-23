@@ -1,6 +1,8 @@
 #include <iostream>
 #include "tree_operations.h"
 
+using namespace std;
+
 //Função que retorna a altura da árvore (quantos níveis a árvore possui)
 int heightTree(Node* ptrRoot)
 {
@@ -29,4 +31,24 @@ int sizeTree(Node* ptrRoot)
     {
         return 1 + sizeTree(ptrRoot) + sizeTree(ptrRoot);
     }
+}
+
+void findTree(Node* ptrRoot, int iNum)
+{
+    if(ptrRoot!=nullptr)
+    {
+        if(ptrRoot->iPayload==iNum)
+        {
+            cout << ptrRoot << endl;
+        }
+        if(ptrRoot->iPayload > iNum)
+        {
+            findTree(ptrRoot->ptrLeft, iNum);
+        }
+        else
+        {
+            findTree(ptrRoot->ptrRight, iNum);
+        }
+    }
+    return;
 }
