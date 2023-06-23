@@ -13,5 +13,4 @@ struct Border{
 
 Border* newBorder();
 void insertBorder(Border*, Node*, int);
-BorderElement* topQueue(Border*);
 void popBorder(Border*);

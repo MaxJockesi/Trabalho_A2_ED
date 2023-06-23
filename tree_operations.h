@@ -1,4 +1,5 @@
 #include "tree_functions.h"
+#include "border_functions.h"
 
 int heightTree(Node* ptrRoot);
 int sizeTree(Node* ptrRoot);

@@ -90,3 +90,23 @@ bool perfectTree(Node* ptrRoot)
         return false;
     }
 }
+
+void printTree(Node* ptrRoot)
+{
+    int iDepth = 1;
+    int iSize = sizeTree(ptrRoot);
+    Border* ptrBorder = newBorder();
+    insertBorder(ptrBorder, ptrRoot, 1);
+    BorderElement* ptrCurrent;
+    for(int i = 0; i<iSize; i++){
+        ptrCurrent = ptrBorder->ptrTop; 
+        if(iDepth<ptrCurrent->iLevel){
+            iDepth += 1;
+            cout << endl;
+        }
+        cout << ptrCurrent->ptrData->iPayload << " ";
+        popBorder(ptrBorder);
+    }
+    cout << endl;
+
+}
