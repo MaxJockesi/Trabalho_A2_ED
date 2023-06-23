@@ -57,6 +57,7 @@ void findTree(Node* ptrRoot, int iNum)
     return;
 }
 
+//Função que retorna true se aárvore passada é completa
 bool completeTree(Node* ptrRoot)
 {
     //Se alguns dos filhos for nullptr, então irá conferir se ambos são, do contrário não será completa
@@ -70,4 +71,22 @@ bool completeTree(Node* ptrRoot)
     }
     //Confere se ambos os lados do ptrRoot são completos, se um não for, a árvore não será completa
     return (completeTree(ptrRoot->ptrLeft) && completeTree(ptrRoot->ptrRight));
+}
+
+//Função que retorna true se a árvore passada é perfeita
+bool perfectTree(Node* ptrRoot)
+{
+    //Se chegou em uma folha, então não houve nenhum probema e retorna true 
+    if(ptrRoot == nullptr){
+        return true;
+    }
+    //Se a altura de ambos os galhos do ptrRoot forem iguais, então significa que possuem mesmo número de níveis
+    if(heightTree(ptrRoot->ptrLeft)==heightTree(ptrRoot->ptrRight)){
+        //Agora testa com os filhos do ptrRoot
+        return (perfectTree(ptrRoot->ptrLeft) && perfectTree(ptrRoot->ptrRight));
+    }
+    //Se não possuírem as mesmas alturas, então não tem como ser perfeita
+    else{
+        return false;
+    }
 }
