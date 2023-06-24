@@ -29,7 +29,7 @@ int sizeTree(Node* ptrRoot)
     //Senão soma 1 ao tamanho mais o tamanho do galho a esquerda mais o tamnho do galho a direita
     else
     {
-        return 1 + sizeTree(ptrRoot) + sizeTree(ptrRoot);
+        return 1 + sizeTree(ptrRoot->ptrLeft) + sizeTree(ptrRoot->ptrRight);
     }
 }
 
