@@ -3,7 +3,7 @@
 
 struct Node* newNode(int iNewData)
 {
-    // cria novo node
+    // Cria novo node
     Node *ptrProx = new Node; 
     ptrProx->iPayload = iNewData; 
     ptrProx->ptrRight = nullptr;
@@ -12,14 +12,14 @@ struct Node* newNode(int iNewData)
 
 void insertData(Node** ptrRoot, int iNewData)
 {
-    // arvore vazia
+    // Árvore vazia
     if (*ptrRoot == nullptr) 
     {
         Node *ptrProx = newNode(iNewData);
         *ptrRoot = ptrProx;
         return;
     }
-    // coloca o elemento na posicao correta 
+    // Coloca o elemento na posição correta 
     if(iNewData >= (*ptrRoot)->iPayload)
         insertData(&(*ptrRoot)->ptrRight, iNewData);
     else
@@ -92,4 +92,45 @@ Node* findReplace(Node* ptrRoot)
     ptrRoot = ptrIter->ptrRight;
     ptrIter->ptrRight = ptrCopy;
     return ptrRoot;
+}
+
+// Conversão para uma linked list  
+void convertToList(Node **ptrRoot) 
+{
+    // Casos em que o root é vazio ou tem 0 filho
+    if ((*ptrRoot) == nullptr || (((*ptrRoot)->ptrLeft == nullptr) && ((*ptrRoot)->ptrRight == nullptr)))
+        return;
+    
+    Node* ptrTmpLeft = (*ptrRoot);
+    Node* ptrTmpRight = (*ptrRoot)->ptrRight;
+    
+    // Caso em que root tem filho à esquerda
+    if ((*ptrRoot)->ptrLeft != nullptr) 
+    {
+        // Converter a sub-árvore da esquerda em lista
+        convertToList(&((*ptrRoot)->ptrLeft));
+
+        (*ptrRoot)->ptrRight = (*ptrRoot)->ptrLeft;
+
+        // Geramos uma sub-lista que começa no root
+        // e inclui toda a sub-árvore da esquerda.
+        // Agora, iremos chegar ao último da sub-lista gerada
+        while (ptrTmpLeft->ptrRight != nullptr)
+        {
+            ptrTmpLeft = ptrTmpLeft->ptrRight;
+        }
+    }
+
+    if (ptrTmpRight == nullptr)
+        return;
+    else
+    {
+        // Converter a sub-árvore da direita em lista
+        convertToList(&(ptrTmpRight));
+
+        (*ptrRoot)->ptrLeft = nullptr;
+
+        // Continuar a sub-lista
+        ptrTmpLeft->ptrRight = ptrTmpRight;
+    }
 }
