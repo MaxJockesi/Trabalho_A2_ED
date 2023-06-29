@@ -63,6 +63,7 @@ bool fullTree(Node* ptrRoot)
     if(ptrRoot==nullptr){
         return true;
     }
+    
     //Se alguns dos filhos for nullptr, então irá conferir se ambos são, do contrário não será cheia
     if(ptrRoot->ptrLeft==nullptr || ptrRoot->ptrRight==nullptr){
         if(ptrRoot->ptrLeft==nullptr && ptrRoot->ptrRight==nullptr){
@@ -78,7 +79,6 @@ bool fullTree(Node* ptrRoot)
 
 bool completeTree(Node* ptrRoot)
 {
-    //false/false=false true/true=true true/false=false 
     if(ptrRoot==nullptr){
         return true;
     }
