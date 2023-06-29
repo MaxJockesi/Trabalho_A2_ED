@@ -205,3 +205,34 @@ Node* nodeCrawler(Node* ref, int k, std::string direction) {
     }
     return ptrTmp;
 }
+
+void shellSort(Node** ptrRoot, int sizeOfTree) 
+{
+    int gap = (sizeOfTree - sizeOfTree % 2)/2; // gap inicial
+    while (gap >= 1) 
+    {
+        Node* ptrTmp_i = nodeCrawler(*ptrRoot, gap, "right");
+        // ptrTmp_i é o (gap)-ésimo termo da DLL
+        for (int i = gap; i < sizeOfTree; i++) 
+        {
+            Node* ptrTmp_j = ptrTmp_i;
+            // ptrTmp_j irá acompanhar j:
+            int j = i;
+            Node* ptrNext_i = ptrTmp_i->ptrRight;
+            while (j >= gap) 
+            {
+                Node* ptrCurrent = nodeCrawler(ptrTmp_j, gap, "left");
+
+                // ptrCurrent volta gap posições
+                if (ptrCurrent->iPayload > ptrTmp_j->iPayload) 
+                {
+                    swapNodes(ptrRoot, ptrCurrent, ptrTmp_j);
+                    j = j - gap;
+                }
+                else break;
+            }
+            ptrTmp_i = ptrNext_i;
+        }
+        gap = (gap - gap % 2)/2; // nova gap é piso(gap/2)
+    }
+}
