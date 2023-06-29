@@ -127,7 +127,8 @@ void swapNodes(Node** ptrRoot, Node* ptrNode1, Node* ptrNode2)
     }
 }
 
-void bubbleSort(Node** ptrRoot) {
+void bubbleSort(Node** ptrRoot) 
+{
     if (((*ptrRoot) ==  nullptr) || ((*ptrRoot)->ptrRight ==  nullptr))
         return;
     
@@ -157,5 +158,31 @@ void bubbleSort(Node** ptrRoot) {
         }
         // O proibido irá passar do nullptr até o segundo da lista
         ptrForbidden = ptrCurrent;
+    }
+}
+
+void selectionSort(Node** ptrRoot) 
+{
+    if (((*ptrRoot) ==  nullptr) || ((*ptrRoot)->ptrRight ==  nullptr))
+        return;
+    
+    // Node que irá localizar o loop 1
+    Node* ptrCurrent = *ptrRoot;
+    while (ptrCurrent->ptrRight != nullptr)
+    {
+        // primeiro, mínimo e localizador do loop 2 da sub-lista
+        Node* ptrFirst = ptrCurrent;
+        Node* ptrMin = ptrFirst;
+        Node* ptrTmp = ptrFirst;
+        while (ptrTmp != nullptr)
+        {
+            if (ptrTmp->iPayload < ptrMin->iPayload)
+            {
+                ptrMin = ptrTmp;
+            }
+            ptrTmp = ptrTmp->ptrRight;
+        }
+        swapNodes(ptrRoot, ptrFirst, ptrMin);
+        ptrCurrent = ptrMin->ptrRight;
     }
 }
