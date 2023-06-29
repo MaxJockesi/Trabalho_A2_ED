@@ -94,7 +94,7 @@ Node* findReplace(Node* ptrRoot)
     return ptrRoot;
 }
 
-// Conversão para uma linked list  
+// Conversão para uma doubly linked list  
 void convertToList(Node **ptrRoot) 
 {
     // Casos em que o root é vazio ou tem 0 filho
@@ -111,6 +111,7 @@ void convertToList(Node **ptrRoot)
         convertToList(&((*ptrRoot)->ptrLeft));
 
         (*ptrRoot)->ptrRight = (*ptrRoot)->ptrLeft;
+        ((*ptrRoot)->ptrLeft)->ptrLeft = *ptrRoot;
 
         // Geramos uma sub-lista que começa no root
         // e inclui toda a sub-árvore da esquerda.
@@ -132,5 +133,6 @@ void convertToList(Node **ptrRoot)
 
         // Continuar a sub-lista
         ptrTmpLeft->ptrRight = ptrTmpRight;
+        ptrTmpRight->ptrLeft = ptrTmpLeft;
     }
 }
