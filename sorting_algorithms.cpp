@@ -248,10 +248,22 @@ void insertionSort(Node** ptrAddrHead){
 	return;
 }
 
-// função pega o Node ref, vai k vezes na direção, retorna o node alcançado
-Node* nodeCrawler(Node* ref, int k, std::string direction) {
+int sizeOfList(Node* ptrRoot)
+{
+    Node* ptrTmp = ptrRoot;
     int i = 0;
-    Node* ptrTmp = ref;
+    while (ptrTmp != nullptr)
+    {
+        i++;
+        ptrTmp = ptrTmp->ptrRight;
+    }
+    return i;
+}
+
+// função pega o Node ptrRoot, vai k vezes na direção, retorna o node alcançado
+Node* nodeCrawler(Node* ptrRoot, int k, std::string direction) {
+    int i = 0;
+    Node* ptrTmp = ptrRoot;
     if (direction == "left") {
         while (k > i) {
             ptrTmp = ptrTmp->ptrLeft;
@@ -267,14 +279,15 @@ Node* nodeCrawler(Node* ref, int k, std::string direction) {
     return ptrTmp;
 }
 
-void shellSort(Node** ptrRoot, int sizeOfTree) 
+void shellSort(Node** ptrRoot) 
 {
-    int gap = (sizeOfTree - sizeOfTree % 2)/2; // gap inicial
+    int size = sizeOfList((*ptrRoot));
+    int gap = (size - size % 2)/2; // gap inicial
     while (gap >= 1) 
     {
         Node* ptrTmp_i = nodeCrawler(*ptrRoot, gap, "right");
         // ptrTmp_i é o (gap)-ésimo termo da DLL
-        for (int i = gap; i < sizeOfTree; i++) 
+        for (int i = gap; i < size; i++) 
         {
             Node* ptrTmp_j = ptrTmp_i;
             // ptrTmp_j irá acompanhar j:
