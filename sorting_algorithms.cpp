@@ -187,6 +187,67 @@ void selectionSort(Node** ptrRoot)
     }
 }
 
+// Função que coloca o ptrNode2 antes do ptrNode1
+void putBeforeList(Node** ptrAddrHead, Node* ptrNode1, Node* ptrNode2){
+	if(ptrNode1!=ptrNode2){
+		Node* ptrNode1prev = ptrNode1->ptrLeft;
+		Node* ptrNode2prev = ptrNode2->ptrLeft;
+		Node* ptrNode2next = ptrNode2->ptrRight;
+		
+		// Se o ptrNode1 for o primeiro da lista, então deve mudar o head
+		if(ptrNode1 == *ptrAddrHead){
+		    *ptrAddrHead = ptrNode2;
+		}
+		else{
+			// Do contrário muda o próximo do antecessor do ptrNode1
+		    ptrNode1prev->ptrRight = ptrNode2;
+		}
+		if(ptrNode2next != nullptr){
+			// Se o ptrNode não for o último, então muda o antecessor do seu próximo
+			 ptrNode2next->ptrLeft = ptrNode2prev;
+		}
+		
+		// Faz as trocas necessárias
+		ptrNode2prev->ptrRight = ptrNode2next;
+		ptrNode2->ptrLeft = ptrNode1prev;
+		ptrNode2->ptrRight = ptrNode1;
+		ptrNode1->ptrLeft = ptrNode2;
+	}
+	return;
+}
+
+// Função que ordena a lista usando o algoritmo inserction sort
+void insertionSort(Node** ptrAddrHead){
+	Node* ptrCurrent = *ptrAddrHead;
+	Node* ptrIter;
+	Node* ptrAux;
+	bool bChanged;
+	
+	while(ptrCurrent!=nullptr){
+		// Inicializa os nós auxiliares
+		ptrAux = ptrCurrent->ptrRight;
+		bChanged = false;
+		ptrIter = ptrCurrent;
+		while(ptrIter->ptrLeft!=nullptr){
+			// Confere se o ptrCurrent é maior que o antecessor do ptrIter
+			if(ptrIter->ptrLeft->iPayload<ptrCurrent->iPayload){
+				// Se for coloca ele entre os dois
+				putBeforeList(ptrAddrHead, ptrIter, ptrCurrent);
+				bChanged = true;
+				break;
+			}		
+			ptrIter = ptrIter->ptrLeft;
+		}
+		if(!bChanged){
+			// Se não houve troca, então o ptrCurrent é o menor, e vai para o começo da lista
+			putBeforeList(ptrAddrHead, *ptrAddrHead, ptrCurrent);
+		}
+		// Passo da iteração
+		ptrCurrent = ptrAux;
+	}
+	return;
+}
+
 // função pega o Node ref, vai k vezes na direção, retorna o node alcançado
 Node* nodeCrawler(Node* ref, int k, std::string direction) {
     int i = 0;
@@ -233,6 +294,6 @@ void shellSort(Node** ptrRoot, int sizeOfTree)
             }
             ptrTmp_i = ptrNext_i;
         }
-        gap = (gap - gap % 2)/2; // nova gap é piso(gap/2)
+        gap = (gap - gap % 2)/2; // Nova gap é piso(gap/2)
     }
 }
