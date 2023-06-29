@@ -60,6 +60,9 @@ void findTree(Node* ptrRoot, int iNum)
 //Função que retorna true se aárvore passada é completa
 bool completeTree(Node* ptrRoot)
 {
+    //Caso Base - Árvore nula
+    if(ptrRoot == nullptr) return true;
+    
     //Se alguns dos filhos for nullptr, então irá conferir se ambos são, do contrário não será completa
     if(ptrRoot->ptrLeft==nullptr || ptrRoot->ptrRight==nullptr){
         if(ptrRoot->ptrLeft==nullptr && ptrRoot->ptrRight==nullptr){
