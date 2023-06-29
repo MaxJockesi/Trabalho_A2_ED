@@ -126,3 +126,36 @@ void swapNodes(Node** ptrRoot, Node* ptrNode1, Node* ptrNode2)
         }
     }
 }
+
+void bubbleSort(Node** ptrRoot) {
+    if (((*ptrRoot) ==  nullptr) || ((*ptrRoot)->ptrRight ==  nullptr))
+        return;
+    
+    bool finished = false;
+    Node *ptrCurrent;
+
+    // Criamos um Node proibido
+    Node *ptrForbidden = nullptr;
+
+    while (finished == false)
+    {
+        finished = true;
+        ptrCurrent = *ptrRoot;
+
+        // ptrCurrent irá até imediatamente antes do proibido
+        while (ptrCurrent->ptrRight != ptrForbidden)
+        {
+            if (ptrCurrent->iPayload > ptrCurrent->ptrRight->iPayload)
+            {
+                swapNodes(ptrRoot, ptrCurrent, ptrCurrent->ptrRight);
+                finished = false;
+            }
+            else
+            {
+            ptrCurrent = ptrCurrent->ptrRight;
+            }
+        }
+        // O proibido irá passar do nullptr até o segundo da lista
+        ptrForbidden = ptrCurrent;
+    }
+}
