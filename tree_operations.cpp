@@ -57,10 +57,13 @@ void findTree(Node* ptrRoot, int iNum)
     return;
 }
 
-//Função que retorna true se aárvore passada é completa
-bool completeTree(Node* ptrRoot)
+//Função que retorna true se árvore passada é cheia
+bool fullTree(Node* ptrRoot)
 {
-    //Se alguns dos filhos for nullptr, então irá conferir se ambos são, do contrário não será completa
+    if(ptrRoot==nullptr){
+        return true;
+    }
+    //Se alguns dos filhos for nullptr, então irá conferir se ambos são, do contrário não será cheia
     if(ptrRoot->ptrLeft==nullptr || ptrRoot->ptrRight==nullptr){
         if(ptrRoot->ptrLeft==nullptr && ptrRoot->ptrRight==nullptr){
             return true;
@@ -69,8 +72,22 @@ bool completeTree(Node* ptrRoot)
             return false;
         }
     }
-    //Confere se ambos os lados do ptrRoot são completos, se um não for, a árvore não será completa
-    return (completeTree(ptrRoot->ptrLeft) && completeTree(ptrRoot->ptrRight));
+    //Confere se ambos os lados do ptrRoot são cheios, se um não for, a árvore não será cheia
+    return (fullTree(ptrRoot->ptrLeft) && fullTree(ptrRoot->ptrRight));
+}
+
+bool completeTree(Node* ptrRoot)
+{
+    //false/false=false true/true=true true/false=false 
+    if(ptrRoot==nullptr){
+        return true;
+    }
+    if(!((heightTree(ptrRoot->ptrLeft)==heightTree(ptrRoot->ptrRight)) || (heightTree(ptrRoot->ptrLeft)==heightTree(ptrRoot->ptrRight)+1))
+    ||!((fullTree(ptrRoot->ptrLeft)&&fullTree(ptrRoot->ptrRight)) || (fullTree(ptrRoot->ptrLeft)&&!fullTree(ptrRoot->ptrRight)))){
+        return false;
+    }
+
+    return (completeTree(ptrRoot->ptrLeft)&&completeTree(ptrRoot->ptrRight));
 }
 
 //Função que retorna true se a árvore passada é perfeita
