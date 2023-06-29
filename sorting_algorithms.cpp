@@ -186,3 +186,22 @@ void selectionSort(Node** ptrRoot)
         ptrCurrent = ptrMin->ptrRight;
     }
 }
+
+// função pega o Node ref, vai k vezes na direção, retorna o node alcançado
+Node* nodeCrawler(Node* ref, int k, std::string direction) {
+    int i = 0;
+    Node* ptrTmp = ref;
+    if (direction == "left") {
+        while (k > i) {
+            ptrTmp = ptrTmp->ptrLeft;
+            i++;
+        }
+    }
+    if (direction == "right") {
+        while (k > i) {
+            ptrTmp = ptrTmp->ptrRight;
+            i++;
+        }
+    }
+    return ptrTmp;
+}
