@@ -134,15 +134,15 @@ void bubbleSort(Node** ptrRoot)
     if (((*ptrRoot) ==  nullptr) || ((*ptrRoot)->ptrRight ==  nullptr))
         return;
     
-    bool finished = false;
+    bool bFinished = false;
     Node *ptrCurrent;
 
     // Criamos um Node proibido
     Node *ptrForbidden = nullptr;
 
-    while (finished == false)
+    while (bFinished == false)
     {
-        finished = true;
+        bFinished = true;
         ptrCurrent = *ptrRoot;
 
         // ptrCurrent irá até imediatamente antes do proibido
@@ -151,7 +151,7 @@ void bubbleSort(Node** ptrRoot)
             if (ptrCurrent->iPayload > ptrCurrent->ptrRight->iPayload)
             {
                 swapNodes(ptrRoot, ptrCurrent, ptrCurrent->ptrRight);
-                finished = false;
+                bFinished = false;
             }
             else
             {
@@ -263,17 +263,17 @@ int sizeOfList(Node* ptrRoot)
 }
 
 // função pega o Node ptrRoot, vai k vezes na direção, retorna o node alcançado
-Node* nodeCrawler(Node* ptrRoot, int k, string direction) {
+Node* nodeCrawler(Node* ptrRoot, int iSteps, string strDirection) {
     int i = 0;
     Node* ptrTmp = ptrRoot;
-    if (direction == "left") {
-        while (k > i) {
+    if (strDirection == "left") {
+        while (iSteps > i) {
             ptrTmp = ptrTmp->ptrLeft;
             i++;
         }
     }
-    if (direction == "right") {
-        while (k > i) {
+    if (strDirection == "right") {
+        while (iSteps > i) {
             ptrTmp = ptrTmp->ptrRight;
             i++;
         }
@@ -283,32 +283,32 @@ Node* nodeCrawler(Node* ptrRoot, int k, string direction) {
 
 void shellSort(Node** ptrRoot) 
 {
-    int size = sizeOfList((*ptrRoot));
-    int gap = (size - size % 2)/2; // gap inicial
-    while (gap >= 1) 
+    int iSize = sizeOfList((*ptrRoot));
+    int iGap = (iSize - iSize % 2)/2; // gap inicial
+    while (iGap >= 1) 
     {
-        Node* ptrTmp_i = nodeCrawler(*ptrRoot, gap, "right");
-        // ptrTmp_i é o (gap)-ésimo termo da DLL
-        for (int i = gap; i < size; i++) 
+        Node* ptrTmp_i = nodeCrawler(*ptrRoot, iGap, "right");
+        // ptrTmp_i é o (iGap)-ésimo termo da DLL
+        for (int i = iGap; i < iSize; i++) 
         {
             Node* ptrTmp_j = ptrTmp_i;
             // ptrTmp_j irá acompanhar j:
             int j = i;
             Node* ptrNext_i = ptrTmp_i->ptrRight;
-            while (j >= gap) 
+            while (j >= iGap) 
             {
-                Node* ptrCurrent = nodeCrawler(ptrTmp_j, gap, "left");
+                Node* ptrCurrent = nodeCrawler(ptrTmp_j, iGap, "left");
 
-                // ptrCurrent volta gap posições
+                // ptrCurrent volta iGap posições
                 if (ptrCurrent->iPayload > ptrTmp_j->iPayload) 
                 {
                     swapNodes(ptrRoot, ptrCurrent, ptrTmp_j);
-                    j = j - gap;
+                    j = j - iGap;
                 }
                 else break;
             }
             ptrTmp_i = ptrNext_i;
         }
-        gap = (gap - gap % 2)/2; // Nova gap é piso(gap/2)
+        iGap = (iGap - iGap % 2)/2; // Nova gap é piso(gap/2)
     }
 }
