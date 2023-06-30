@@ -1,6 +1,8 @@
 #include <iostream>
 #include "tree_functions.h"
 
+using namespace std;
+
 // Função que troca nós de uma lista de inteiros - Supondo nó 2 após nó 1
 void swapNodes(Node** ptrRoot, Node* ptrNode1, Node* ptrNode2)
 {
@@ -261,7 +263,7 @@ int sizeOfList(Node* ptrRoot)
 }
 
 // função pega o Node ptrRoot, vai k vezes na direção, retorna o node alcançado
-Node* nodeCrawler(Node* ptrRoot, int k, std::string direction) {
+Node* nodeCrawler(Node* ptrRoot, int k, string direction) {
     int i = 0;
     Node* ptrTmp = ptrRoot;
     if (direction == "left") {
