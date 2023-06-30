@@ -151,17 +151,17 @@ void convertToList(Node **ptrRoot)
 Node *createTree()
 {
     Node *ptrRoot = nullptr;
-    char chStop = 'S'; // para encerrar o pedido de variáveis
+    char chStop = 'Y'; // para encerrar o pedido de variáveis
     int iNewData;
     do 
     {
-        cout << "Insira um inteiro" << endl;
+        cout << "Type an integer" << endl;
         cin >> iNewData;
         insertData(&ptrRoot, iNewData); // insere o dado na arvore
-        cout << "Encerrar? (S/N)" << endl; 
+        cout << "End with the process? (Y/N)" << endl; 
         cin >> chStop;
     } 
-    while(chStop != 'S'); // enquanto o usuario não digitar S quando pedido, continua pedindo dados
+    while(chStop != 'Y'); // enquanto o usuario não digitar Y quando pedido, continua pedindo dados
     return ptrRoot;
 }
 
@@ -173,7 +173,7 @@ Node* readTree(char* strFileName)
     file.open(strFileName);
     if(!file.is_open())
     {
-        cout << "ERRO: não foi possível abrir o arquivo" << endl;
+        cout << "ERROR: Unable to open the archive." << endl;
         return nullptr;
     }
     // Lê os dados do arquivo considerando inteiros separados por espaços ou linhas
