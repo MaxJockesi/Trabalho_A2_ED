@@ -82,18 +82,20 @@ bool completeTree(Node* ptrRoot)
     if(ptrRoot==nullptr){
         return true;
     }
-    if(!((heightTree(ptrRoot->ptrLeft)==heightTree(ptrRoot->ptrRight)) || (heightTree(ptrRoot->ptrLeft)==heightTree(ptrRoot->ptrRight)+1))
-    ||!((fullTree(ptrRoot->ptrLeft)&&fullTree(ptrRoot->ptrRight)) || (fullTree(ptrRoot->ptrLeft)&&!fullTree(ptrRoot->ptrRight)))){
-        return false;
+    if(heightTree(ptrRoot->ptrLeft)==heightTree(ptrRoot->ptrRight)||fullTree(ptrRoot->ptrLeft)){
+        return (completeTree(ptrRoot->ptrLeft)&&completeTree(ptrRoot->ptrRight));
+    }
+    else if((heightTree(ptrRoot->ptrLeft)==heightTree(ptrRoot->ptrRight)+1)||fullTree(ptrRoot->ptrRight)){
+        return (completeTree(ptrRoot->ptrLeft)&&completeTree(ptrRoot->ptrRight));
     }
 
-    return (completeTree(ptrRoot->ptrLeft)&&completeTree(ptrRoot->ptrRight));
+    return false;
 }
 
 //Função que retorna true se a árvore passada é perfeita
 bool perfectTree(Node* ptrRoot)
 {
-    //Se chegou em uma folha, então não houve nenhum probema e retorna true 
+    //Se chegou em uma folha, então não houve nenhum problema e retorna true 
     if(ptrRoot == nullptr){
         return true;
     }
