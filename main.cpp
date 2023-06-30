@@ -147,7 +147,7 @@ int CinInsertion()
 
 
 //Conseguindo um ponteiro na tela - até 5 árvores na memória
-struct Node* ChooseRoot()
+struct Node** ChooseRoot()
 {
     
     cout << "Choose a integer your tree from 1 to 5." << endl << endl;
@@ -166,15 +166,15 @@ struct Node* ChooseRoot()
         switch(iChosenNumber)
         {
             case 1:
-                return ptrTree1;
+                return &ptrTree1;
             case 2:
-                return ptrTree2;
+                return &ptrTree2;
             case 3:
-                return ptrTree3;
+                return &ptrTree3;
             case 4:
-                return ptrTree4;
+                return &ptrTree4;
             case 5:
-                return ptrTree5;
+                return &ptrTree5;
             default:
                 cout << "Invalid option. Choose an integer from 1 to 5." << endl
                 << endl;
@@ -233,13 +233,13 @@ void TreeCreation()
             //Criar árvore por arquivo-texto
             case 1:
             {    
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 char* NameFile;
                 cout << "Input the adress of your file: " << endl;
                 cin >> NameFile;
                 
                 auto timeStart = high_resolution_clock::now();
-                ptrInterface = readTree(NameFile);
+                *ptrInterface = readTree(NameFile);
                 
                 auto timeStop = high_resolution_clock::now();
                 auto timeDuration = duration_cast<seconds>(timeStop - timeStart);
@@ -251,10 +251,10 @@ void TreeCreation()
             //Criar árvore pela interface
             case 2:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 auto timeStart = high_resolution_clock::now();
                 
-                ptrInterface = createTree();
+                *ptrInterface = createTree();
                 auto timeStop = high_resolution_clock::now();
                 auto timeDuration = duration_cast<seconds>(timeStop - timeStart);
                 
@@ -265,26 +265,26 @@ void TreeCreation()
             // Insere um novo elemento na árvore
             case 3:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 
                 cout << "Type a number to be a new element for the " 
                 "choosen tree: ";
                 int iNewelement = CinInsertion();
                 
-                TimeExecution(&ptrInterface, iNewelement, &insertData);
+                TimeExecution(ptrInterface, iNewelement, &insertData);
                 return;
             }    
             // Deleta um elemento da árvore    
             case 4:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 int idelelement;
                 
                 cout << "Type a number to be deleted for the "
                 "choosen tree one time: ";
                 cin >> idelelement;
                 
-                TimeExecution(&ptrInterface, idelelement, &deleteData);
+                TimeExecution(ptrInterface, idelelement, &deleteData);
                 return;
             }    
             default:
@@ -321,8 +321,8 @@ void TreeInformation()
             //Altura da árvore
             case 1:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                int iheight = TimeExecution(ptrInterface, &heightTree);
+                struct Node** ptrInterface = ChooseRoot();
+                int iheight = TimeExecution(*ptrInterface, &heightTree);
                 
                 cout << "Tree's height: " << iheight << endl;
                 return;
@@ -331,15 +331,15 @@ void TreeInformation()
             //Tamanho da árvore
             case 2:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                int itreesize = TimeExecution(ptrInterface, &sizeTree);
+                struct Node** ptrInterface = ChooseRoot();
+                int itreesize = TimeExecution(*ptrInterface, &sizeTree);
                 cout << "Tree's size: " << itreesize << endl;
                 return;
             }
             //Endereços de um número inteiro em uma árvore
             case 3:  
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 
                 cout << "Type a integer number you want to find in the choosen " 
                 "tree: "<< endl;
@@ -349,15 +349,15 @@ void TreeInformation()
                 
                 //Resultado
                 cout << "Adresses with the number at the tree: " << endl;
-                TimeExecution(ptrInterface, iSearchNum, &findTree);
+                TimeExecution(*ptrInterface, iSearchNum, &findTree);
                 cout << endl;
                 return;
             }
             //Verifica se árvore é completa
             case 4:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                bool biscomplete = TimeExecution(ptrInterface, &completeTree);
+                struct Node** ptrInterface = ChooseRoot();
+                bool biscomplete = TimeExecution(*ptrInterface, &completeTree);
                 if(biscomplete == true)
                 {
                     cout << "The tree is complete." << endl;
@@ -371,8 +371,8 @@ void TreeInformation()
             //Verifica se árvore é perfeita
             case 5:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                bool bisperfect = TimeExecution(ptrInterface, &perfectTree);
+                struct Node** ptrInterface = ChooseRoot();
+                bool bisperfect = TimeExecution(*ptrInterface, &perfectTree);
                 if(bisperfect == true)
                 {
                     cout << "The tree is perfect." << endl;
@@ -386,9 +386,9 @@ void TreeInformation()
             // Imprime a árvore por BFS
             case 6:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 cout << "Printing tree by BFS: " << endl << endl;
-                TimeExecution(ptrInterface, &printTree);
+                TimeExecution(*ptrInterface, &printTree);
                 return;
             }
             default:
@@ -427,57 +427,57 @@ void TreeOrder()
             //Bubble Sort
             case 1:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                TimeExecutionSorts(ptrInterface, &bubbleSort);
+                struct Node** ptrInterface = ChooseRoot();
+                TimeExecutionSorts(*ptrInterface, &bubbleSort);
                 cout << "Ordened tree. See it now." << endl;
                 return;
             }    
             //Selection Sort    
             case 2:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                TimeExecutionSorts(ptrInterface, &selectionSort);
+                struct Node** ptrInterface = ChooseRoot();
+                TimeExecutionSorts(*ptrInterface, &selectionSort);
                 cout << "Ordened tree. See it now." << endl;
                 return;
             }    
             //Insertion Sort    
             case 3:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                TimeExecutionSorts(ptrInterface, &insertionSort);
+                struct Node** ptrInterface = ChooseRoot();
+                TimeExecutionSorts(*ptrInterface, &insertionSort);
                 cout << "Ordened tree. See it now." << endl;
                 return;
             }    
             //Shell Sort    
             case 4:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                TimeExecutionSorts(ptrInterface, &shellSort);
+                struct Node** ptrInterface = ChooseRoot();
+                TimeExecutionSorts(*ptrInterface, &shellSort);
                 cout << "Ordened tree. See it now." << endl;
                 return;
             }    
             case 5:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 
                 
                 return;
             }    
             case 6:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot(); 
                 
                 
                 return;
             }    
             case 7:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 return;
             }    
             case 8:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 return;
             }    
             default:

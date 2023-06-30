@@ -158,10 +158,10 @@ Node *createTree()
         cout << "Type an integer" << endl;
         cin >> iNewData;
         insertData(&ptrRoot, iNewData); // insere o dado na arvore
-        cout << "End with the process? (Y/N)" << endl; 
+        cout << "End with the process? (Y/Any)" << endl; 
         cin >> chStop;
     } 
-    while(chStop != 'Y'); // enquanto o usuario não digitar Y quando pedido, continua pedindo dados
+    while(chStop != 'Y' && chStop != 'y'); // enquanto o usuario não digitar Y quando pedido, continua pedindo dados
     return ptrRoot;
 }
 
