@@ -469,3 +469,67 @@ void selectionSortAnimation(Node** ptrRoot)
     SDL_RenderPresent(ptrRenderer);
     SDL_Delay(1000);
 }
+
+void insertionSortAnimation(Node** ptrRoot){
+    int iSize = sizeOfList(*ptrRoot);
+    int iMax = maxOfList(*ptrRoot);
+
+    SDL_Window* window = nullptr;
+    SDL_Renderer* ptrRenderer = nullptr;
+    SDL_CreateWindowAndRenderer(
+        1500, 720, 0,
+        &window, &ptrRenderer);
+
+    SDL_RenderSetScale(ptrRenderer, 1500/iSize, 1);
+
+	Node* ptrCurrent = *ptrRoot;
+	Node* ptrIter;
+	Node* ptrAux;
+	bool bChanged;
+	
+	while(ptrCurrent!=nullptr){
+        
+		// Inicializa os nós auxiliares
+		ptrAux = ptrCurrent->ptrRight;
+		bChanged = false;
+		ptrIter = ptrCurrent;
+		while(ptrIter->ptrLeft!=nullptr){
+            // Limpar a tela
+            SDL_SetRenderDrawColor(ptrRenderer, 255, 255, 255, 255);
+            
+            SDL_RenderClear(ptrRenderer);
+
+            // Desenhar o estado do sort
+            drawState(*ptrRoot, ptrRenderer);
+
+            // Mostrar a tela
+            SDL_RenderPresent(ptrRenderer);
+            SDL_Delay(1);
+
+			// Confere se o ptrCurrent é maior que o antecessor do ptrIter
+			if(ptrIter->ptrLeft->iPayload<ptrCurrent->iPayload){
+				// Se for coloca ele entre os dois
+				putBeforeList(ptrRoot, ptrIter, ptrCurrent);
+				bChanged = true;
+				break;
+			}		
+			ptrIter = ptrIter->ptrLeft;
+		}
+		if(!bChanged){
+			// Se não houve troca, então o ptrCurrent é o menor, e vai para o começo da lista
+			putBeforeList(ptrRoot, *ptrRoot, ptrCurrent);
+		}
+		// Passo da iteração
+		ptrCurrent = ptrAux;
+	}
+    SDL_SetRenderDrawColor(ptrRenderer, 0, 255, 0, 255);
+                
+    SDL_RenderClear(ptrRenderer);
+
+    // Desenhar o estado do sort
+    drawState(*ptrRoot, ptrRenderer);
+
+    // Mostrar a tela
+    SDL_RenderPresent(ptrRenderer);
+    SDL_Delay(1000);
+}
