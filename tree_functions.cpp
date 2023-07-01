@@ -78,7 +78,6 @@ void deleteData(Node **ptrRoot, int iDelete)
 // Encontra o substituto correto para o node deletado e ajeita os ponteiros 
 Node* findReplace(Node* ptrRoot)
 {
-    
     // Casos em que o node tem 0 filhos ou só filho à esquerda
     if(ptrRoot->ptrRight == nullptr) 
         return ptrRoot->ptrLeft;

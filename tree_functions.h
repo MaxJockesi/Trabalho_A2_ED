@@ -3,13 +3,7 @@
 
 #include <string>
 #include <iostream>
-
-struct Node
-{
-    int iPayload;
-    Node *ptrRight;
-    Node *ptrLeft;
-};
+#include "node.h"
 
 struct Node* newNode(int);
 void insertData(Node**, int);

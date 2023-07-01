@@ -1,7 +1,7 @@
 #ifndef SORTING_ALGORITHMS_H
 #define SORTING_ALGORITHMS_H
 
-#include "tree_functions.h"
+#include "node.h"
 
 #include <iostream>
 
