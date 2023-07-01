@@ -1,6 +1,7 @@
 #ifndef BORDER_FUNCTIONS_H
 #define BORDER_FUNCTIONS_H
 
+#include <iostream>
 #include "node.h"
 
 struct BorderElement{

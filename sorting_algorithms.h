@@ -18,6 +18,7 @@ void insertionSort(Node**);
 int sizeOfList(Node*);
 Node* nodeCrawler(Node*, int, string);
 void shellSort(Node**);
+void insertNodeList(Node**, int);
 int maxOfList(Node*);
 void drawState(Node*, SDL_Renderer*);
 void bubbleSortAnimation(Node**);

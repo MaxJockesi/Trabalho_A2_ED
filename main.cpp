@@ -406,6 +406,10 @@ void treeOrder()
     cout << "6. Sort visualization (Selection). " << endl;
     cout << "7. Sort visualization (Insertion). " << endl;
     cout << "8. Sort visualization (Shell). " << endl;
+    cout << "9. Sort visualization (Bubble) with random list. " << endl;
+    cout << "10. Sort visualization (Selection) with random list. " << endl;
+    cout << "11. Sort visualization (Insertion) with random list. " << endl;
+    cout << "12. Sort visualization (Shell) with random list. " << endl;
     cout << endl;
     
     while(true)
@@ -475,6 +479,84 @@ void treeOrder()
             {
                 struct Node** ptrInterface = chooseRoot();
                 timeExecutionSorts(*ptrInterface, &shellSortAnimation);
+                cout << "Ordered list. See it now." << endl;
+                return;
+            }
+            //Listas aleatórias - Sorts
+            //Bubble Sort
+            case 9:
+            {
+                struct Node* ptrInterface = nullptr;
+                cout << "Maior número da lista: ";
+                int iRange = cinInsertion();
+
+                cout << "Tamanho da lista: ";
+                int iSizeList = cinInsertion();
+
+                for(int i = 0; i < iSizeList; i++)
+                {
+                    int iRandom = rand() % iRange;
+                    insertNodeList(&ptrInterface, iRandom);
+                }
+
+                bubbleSortAnimation(&ptrInterface);
+                cout << "Ordered list. See it now." << endl;
+                return;
+            }
+            case 10:
+            {
+                struct Node* ptrInterface = nullptr;
+                cout << "Maior número da lista: ";
+                int iRange = cinInsertion();
+
+                cout << "Tamanho da lista: ";
+                int iSizeList = cinInsertion();
+
+                for(int i = 0; i < iSizeList; i++)
+                {
+                    int iRandom = rand() % iRange;
+                    insertNodeList(&ptrInterface, iRandom);
+                }
+
+                selectionSortAnimation(&ptrInterface);
+                cout << "Ordered list. See it now." << endl;
+                return;
+            }    
+            case 11:
+            {
+                struct Node* ptrInterface = nullptr;
+                cout << "Maior número da lista: ";
+                int iRange = cinInsertion();
+
+                cout << "Tamanho da lista: ";
+                int iSizeList = cinInsertion();
+
+                for(int i = 0; i < iSizeList; i++)
+                {
+                    int iRandom = rand() % iRange;
+                    insertNodeList(&ptrInterface, iRandom);
+                }
+
+                insertionSortAnimation(&ptrInterface);
+                cout << "Ordered list. See it now." << endl;
+                return;
+            }
+            case 12:
+            {
+                struct Node* ptrInterface = nullptr;
+                cout << "Maior número da lista: ";
+                int iRange = cinInsertion();
+
+                cout << "Tamanho da lista: ";
+                int iSizeList = cinInsertion();
+
+                for(int i = 0; i < iSizeList; i++)
+                {
+                    int iRandom = rand() % iRange;
+                    insertNodeList(&ptrInterface, iRandom);
+                }
+
+                shellSortAnimation(&ptrInterface);
                 cout << "Ordered list. See it now." << endl;
                 return;
             }    

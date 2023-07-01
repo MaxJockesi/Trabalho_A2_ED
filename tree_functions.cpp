@@ -8,7 +8,7 @@ using namespace std;
 struct Node* newNode(int iNewData)
 {
     // Cria novo node
-    Node *ptrProx = new Node; 
+    Node *ptrProx = (Node*)malloc(sizeof(Node)); 
     ptrProx->iPayload = iNewData; 
     ptrProx->ptrRight = nullptr;
     ptrProx->ptrLeft = nullptr;

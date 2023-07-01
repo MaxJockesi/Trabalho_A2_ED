@@ -3,7 +3,7 @@
 //Função que retorna uma fila vazia
 Border* newBorder()
 {
-    Border* ptrBorder = new Border;
+    Border* ptrBorder = (Border*)malloc(sizeof(Border));
     ptrBorder->ptrLast = nullptr;
     ptrBorder->ptrTop = nullptr;
 
@@ -14,7 +14,7 @@ Border* newBorder()
 void insertBorder(Border* ptrBorder, Node* ptrAddress, int iNum)
 {
     //Inicializa o novo elemento da fronteira
-    BorderElement* newElement = new BorderElement;
+    BorderElement* newElement = (BorderElement*)malloc(sizeof(BorderElement));
     newElement->ptrData = ptrAddress;
     //Nível em que o elemento está na árvore
     newElement->iLevel = iNum;

@@ -193,15 +193,15 @@ void selectionSort(Node** ptrRoot)
 }
 
 // Função que coloca o ptrNode2 antes do ptrNode1
-void putBeforeList(Node** ptrAddrHead, Node* ptrNode1, Node* ptrNode2){
+void putBeforeList(Node** ptrRoot, Node* ptrNode1, Node* ptrNode2){
 	if(ptrNode1!=ptrNode2){
 		Node* ptrNode1prev = ptrNode1->ptrLeft;
 		Node* ptrNode2prev = ptrNode2->ptrLeft;
 		Node* ptrNode2next = ptrNode2->ptrRight;
 		
 		// Se o ptrNode1 for o primeiro da lista, então deve mudar o head
-		if(ptrNode1 == *ptrAddrHead){
-		    *ptrAddrHead = ptrNode2;
+		if(ptrNode1 == *ptrRoot){
+		    *ptrRoot = ptrNode2;
 		}
 		else{
 			// Do contrário muda o próximo do antecessor do ptrNode1
@@ -222,8 +222,8 @@ void putBeforeList(Node** ptrAddrHead, Node* ptrNode1, Node* ptrNode2){
 }
 
 // Função que ordena a lista usando o algoritmo inserction sort
-void insertionSort(Node** ptrAddrHead){
-	Node* ptrCurrent = *ptrAddrHead;
+void insertionSort(Node** ptrRoot){
+	Node* ptrCurrent = *ptrRoot;
 	Node* ptrIter;
 	Node* ptrAux;
 	bool bChanged;
@@ -237,7 +237,7 @@ void insertionSort(Node** ptrAddrHead){
 			// Confere se o ptrCurrent é maior que o antecessor do ptrIter
 			if(ptrIter->ptrLeft->iPayload<ptrCurrent->iPayload){
 				// Se for coloca ele entre os dois
-				putBeforeList(ptrAddrHead, ptrIter, ptrCurrent);
+				putBeforeList(ptrRoot, ptrIter, ptrCurrent);
 				bChanged = true;
 				break;
 			}		
@@ -245,7 +245,7 @@ void insertionSort(Node** ptrAddrHead){
 		}
 		if(!bChanged){
 			// Se não houve troca, então o ptrCurrent é o menor, e vai para o começo da lista
-			putBeforeList(ptrAddrHead, *ptrAddrHead, ptrCurrent);
+			putBeforeList(ptrRoot, *ptrRoot, ptrCurrent);
 		}
 		// Passo da iteração
 		ptrCurrent = ptrAux;
@@ -316,6 +316,22 @@ void shellSort(Node** ptrRoot)
     }
 }
 
+void insertNodeList(Node** ptrRoot, int iNewData) {
+    Node* ptrNewNode = new Node();
+    ptrNewNode->iPayload = iNewData;
+    if (*ptrRoot == nullptr) {
+        ptrNewNode->ptrRight = nullptr;
+        ptrNewNode->ptrLeft = nullptr;
+        *ptrRoot = ptrNewNode;
+        return;
+    }
+    Node* ptrTmp = *ptrRoot;
+    while (ptrTmp->ptrRight != nullptr) {ptrTmp = ptrTmp->ptrRight;}
+    ptrTmp->ptrRight = ptrNewNode;
+    ptrNewNode->ptrLeft = ptrTmp;
+    ptrNewNode->ptrRight = nullptr;
+}
+
 int maxOfList(Node* ptrRoot)
 {
     Node* ptrTmp = ptrRoot;
@@ -384,7 +400,7 @@ void bubbleSortAnimation(Node** ptrRoot)
 
             // Mostrar a tela
             SDL_RenderPresent(ptrRenderer);
-            SDL_Delay(1);
+            SDL_Delay(2);
             
             if (ptrCurrent->iPayload > ptrCurrent->ptrRight->iPayload)
             {
@@ -447,7 +463,7 @@ void selectionSortAnimation(Node** ptrRoot)
 
             // Mostrar a tela
             SDL_RenderPresent(ptrRenderer);
-            SDL_Delay(1);
+            SDL_Delay(2);
 
             if (ptrTmp->iPayload < ptrMin->iPayload)
             {
@@ -504,7 +520,7 @@ void insertionSortAnimation(Node** ptrRoot){
 
             // Mostrar a tela
             SDL_RenderPresent(ptrRenderer);
-            SDL_Delay(1);
+            SDL_Delay(2);
 
 			// Confere se o ptrCurrent é maior que o antecessor do ptrIter
 			if(ptrIter->ptrLeft->iPayload<ptrCurrent->iPayload){
@@ -572,7 +588,7 @@ void shellSortAnimation(Node** ptrRoot)
 
                 // Mostrar a tela
                 SDL_RenderPresent(ptrRenderer);
-                SDL_Delay(1);
+                SDL_Delay(2);
 
                 Node* ptrCurrent = nodeCrawler(ptrTmp_j, iGap, "left");
 
