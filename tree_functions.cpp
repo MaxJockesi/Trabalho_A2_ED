@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "tree_functions.h"
 
 using namespace std;
@@ -105,11 +106,11 @@ Node* findReplace(Node* ptrRoot)
 }
 
 // Conversão para uma doubly linked list  
-void convertToList(Node **ptrRoot) 
+Node* convertToList(Node **ptrRoot) 
 {
     // Casos em que o root é vazio ou tem 0 filho
     if ((*ptrRoot) == nullptr || (((*ptrRoot)->ptrLeft == nullptr) && ((*ptrRoot)->ptrRight == nullptr)))
-        return;
+        return *ptrRoot;
     
     Node* ptrTmpLeft = (*ptrRoot);
     Node* ptrTmpRight = (*ptrRoot)->ptrRight;
@@ -133,7 +134,7 @@ void convertToList(Node **ptrRoot)
     }
 
     if (ptrTmpRight == nullptr)
-        return;
+        return *ptrRoot;
 
     else
     {
@@ -146,6 +147,7 @@ void convertToList(Node **ptrRoot)
         ptrTmpLeft->ptrRight = ptrTmpRight;
         ptrTmpRight->ptrLeft = ptrTmpLeft;
     }
+    return *ptrRoot;
 }
 
 Node *createTree()
@@ -157,6 +159,12 @@ Node *createTree()
     {
         cout << "Type an integer" << endl;
         cin >> iNewData;
+        while(cin.fail())
+        {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cin >> iNewData;
+        }
         insertData(&ptrRoot, iNewData); // insere o dado na arvore
         cout << "End with the process? (Y/Any)" << endl; 
         cin >> chStop;
@@ -165,7 +173,7 @@ Node *createTree()
     return ptrRoot;
 }
 
-Node* readTree(char* strFileName)
+Node* readTree(std::string strFileName)
 {   
     // Checa se o arquivo foi aberto 
     // Se não foi, printa uma mensagem de erro e retorna
