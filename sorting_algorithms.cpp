@@ -533,3 +533,69 @@ void insertionSortAnimation(Node** ptrRoot){
     SDL_RenderPresent(ptrRenderer);
     SDL_Delay(1000);
 }
+
+void shellSortAnimation(Node** ptrRoot) 
+{
+    int iSize = sizeOfList(*ptrRoot);
+    int iMax = maxOfList(*ptrRoot);
+
+    SDL_Window* window = nullptr;
+    SDL_Renderer* ptrRenderer = nullptr;
+    SDL_CreateWindowAndRenderer(
+        1500, 720, 0,
+        &window, &ptrRenderer);
+
+    SDL_RenderSetScale(ptrRenderer, 1500/iSize, 1);
+
+    int iGap = (iSize - iSize % 2)/2; // iGap inicial
+    while (iGap >= 1) 
+    {
+        Node* ptrTmp_i = nodeCrawler(*ptrRoot, iGap, "right");
+        // ptrTmp_i é o (iGap)-ésimo termo da DLL
+        for (int i = iGap; i < iSize; i++) 
+        {
+            Node* ptrTmp_j = ptrTmp_i;
+            // ptrTmp_j irá acompanhar j:
+            int j = i;
+
+            Node* ptrNext_i = ptrTmp_i->ptrRight;
+
+            while (j >= iGap) 
+            {
+                // Limpar a tela
+                SDL_SetRenderDrawColor(ptrRenderer, 255, 255, 255, 255);
+                
+                SDL_RenderClear(ptrRenderer);
+
+                // Desenhar o estado do sort
+                drawState(*ptrRoot, ptrRenderer);
+
+                // Mostrar a tela
+                SDL_RenderPresent(ptrRenderer);
+                SDL_Delay(1);
+
+                Node* ptrCurrent = nodeCrawler(ptrTmp_j, iGap, "left");
+
+                // ptrCurrent volta iGap posições
+                if (ptrCurrent->iPayload > ptrTmp_j->iPayload) 
+                {
+                    swapNodes(ptrRoot, ptrCurrent, ptrTmp_j);
+                    j = j - iGap;
+                }
+                else break;
+            }
+            ptrTmp_i = ptrNext_i;
+        }
+        iGap = (iGap - iGap % 2)/2; // Nova iGap é piso(iGap/2)
+    }
+    SDL_SetRenderDrawColor(ptrRenderer, 0, 255, 0, 255);
+                
+    SDL_RenderClear(ptrRenderer);
+
+    // Desenhar o estado do sort
+    drawState(*ptrRoot, ptrRenderer);
+
+    // Mostrar a tela
+    SDL_RenderPresent(ptrRenderer);
+    SDL_Delay(1000);
+}
