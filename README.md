@@ -42,10 +42,10 @@ Faça na pasta onde o repositório ficará:
 
 <h2>Integrantes</h2>
 
-- Cleyton Vinicius Prado dos Santos
-- Jean Fernando Horn
-- Max Jockesi Barbosa Soares
-- Pablo Andrade Carvalho Barros
+- <a href="https://github.com/CleytonVPSantos" target="_blank"> Cleyton Vinicius Prado dos Santos
+- <a href="https://github.com/MaxJockesi" target="_blank"> Jean Fernando Horn
+- <a href="https://github.com/jhorn26" target="_blank"> Max Jockesi Barbosa Soares
+- <a href="https://github.com/pabl0ck" target="_blank"> Pablo Andrade Carvalho Barros
 
 <h2>Agradecimentos especiais</h2>
 
