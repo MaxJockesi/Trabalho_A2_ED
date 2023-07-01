@@ -1,5 +1,8 @@
+#define SDL_MAIN_HANDLED
+
 #include <iostream>
 #include "tree_functions.h"
+#include <SDL2/SDL.h>
 
 using namespace std;
 
@@ -309,6 +312,34 @@ void shellSort(Node** ptrRoot)
             }
             ptrTmp_i = ptrNext_i;
         }
-        iGap = (iGap - iGap % 2)/2; // Nova gap é piso(gap/2)
+        iGap = (iGap - iGap % 2)/2; // Nova iGap é piso(iGap/2)
+    }
+}
+
+int maxOfList(Node* ptrRoot)
+{
+    Node* ptrTmp = ptrRoot;
+    int iMax = ptrRoot->iPayload;
+    while (ptrTmp != nullptr)
+    {
+        if (ptrTmp->iPayload > iMax)
+        {
+            iMax = ptrTmp->iPayload;
+        }
+        ptrTmp = ptrTmp->ptrRight;
+    }
+    return iMax;
+}
+
+void drawState(Node* ptrRoot, SDL_Renderer* ptrRenderer)
+{
+    int iIndex = 0;
+    Node* ptrTmp = ptrRoot;
+    while (ptrTmp != nullptr)
+    {
+        SDL_SetRenderDrawColor(ptrRenderer, 0, 0, 0, 225);
+        SDL_RenderDrawLine(ptrRenderer, iIndex, 720-ptrTmp->iPayload, iIndex, 0);
+        iIndex += 1;
+        ptrTmp = ptrTmp->ptrRight;
     }
 }
