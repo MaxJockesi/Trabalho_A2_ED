@@ -400,7 +400,7 @@ void bubbleSortAnimation(Node** ptrRoot)
 
             // Mostrar a tela
             SDL_RenderPresent(ptrRenderer);
-            SDL_Delay(2);
+            SDL_Delay(1);
             
             if (ptrCurrent->iPayload > ptrCurrent->ptrRight->iPayload)
             {
@@ -463,7 +463,7 @@ void selectionSortAnimation(Node** ptrRoot)
 
             // Mostrar a tela
             SDL_RenderPresent(ptrRenderer);
-            SDL_Delay(2);
+            SDL_Delay(1);
 
             if (ptrTmp->iPayload < ptrMin->iPayload)
             {
@@ -520,7 +520,7 @@ void insertionSortAnimation(Node** ptrRoot){
 
             // Mostrar a tela
             SDL_RenderPresent(ptrRenderer);
-            SDL_Delay(2);
+            SDL_Delay(1);
 
 			// Confere se o ptrCurrent é maior que o antecessor do ptrIter
 			if(ptrIter->ptrLeft->iPayload<ptrCurrent->iPayload){
@@ -588,7 +588,7 @@ void shellSortAnimation(Node** ptrRoot)
 
                 // Mostrar a tela
                 SDL_RenderPresent(ptrRenderer);
-                SDL_Delay(2);
+                SDL_Delay(1);
 
                 Node* ptrCurrent = nodeCrawler(ptrTmp_j, iGap, "left");
 
