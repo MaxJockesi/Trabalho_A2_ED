@@ -1,8 +1,8 @@
 #define SDL_MAIN_HANDLED
 
 #include <iostream>
-#include "sorting_algorithms.h"
 #include <SDL2/SDL.h>
+#include "sorting_algorithms.h"
 
 using namespace std;
 
