@@ -427,7 +427,7 @@ void treeOrder()
             {
                 struct Node** ptrInterface = chooseRoot();
                 timeExecutionSorts(*ptrInterface, &selectionSort);
-                cout << "Ordered tree. See it now." << endl;
+                cout << "Ordered list. See it now." << endl;
                 return;
             }    
             // Insertion Sort    
@@ -435,7 +435,7 @@ void treeOrder()
             {
                 struct Node** ptrInterface = chooseRoot();
                 timeExecutionSorts(*ptrInterface, &insertionSort);
-                cout << "Ordened tree. See it now." << endl;
+                cout << "Ordered list. See it now." << endl;
                 return;
             }    
             // Shell Sort    
@@ -443,31 +443,39 @@ void treeOrder()
             {
                 struct Node** ptrInterface = chooseRoot();
                 timeExecutionSorts(*ptrInterface, &shellSort);
-                cout << "Ordered tree. See it now." << endl;
+                cout << "Ordered list. See it now." << endl;
                 return;
-            }    
+            }
+            // Bubble Sort Animation    
             case 5:
             {
                 struct Node** ptrInterface = chooseRoot();
-                
-                
+                timeExecutionSorts(*ptrInterface, &bubbleSortAnimation);
+                cout << "Ordered list. See it now." << endl;
                 return;
-            }    
+            }
+            // Selection Sort Animation    
             case 6:
             {
                 struct Node** ptrInterface = chooseRoot(); 
-                
-                
+                timeExecutionSorts(*ptrInterface, &selectionSortAnimation);
+                cout << "Ordered list. See it now." << endl;
                 return;
             }    
+            // Insertion Sort Animation
             case 7:
             {
                 struct Node** ptrInterface = chooseRoot();
+                timeExecutionSorts(*ptrInterface, &insertionSortAnimation);
+                cout << "Ordered list. See it now." << endl;
                 return;
-            }    
+            }
+            // Shell Sort Animation    
             case 8:
             {
                 struct Node** ptrInterface = chooseRoot();
+                timeExecutionSorts(*ptrInterface, &shellSortAnimation);
+                cout << "Ordered list. See it now." << endl;
                 return;
             }    
             default:

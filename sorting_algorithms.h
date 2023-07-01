@@ -1,5 +1,8 @@
 #ifndef SORTING_ALGORITHMS_H
 #define SORTING_ALGORITHMS_H
+#define SDL_MAIN_HANDLED
+
+#include <SDL2/SDL.h>
 
 #include "node.h"
 
@@ -15,5 +18,11 @@ void insertionSort(Node**);
 int sizeOfList(Node*);
 Node* nodeCrawler(Node*, int, string);
 void shellSort(Node**);
+int maxOfList(Node*);
+void drawState(Node*, SDL_Renderer*);
+void bubbleSortAnimation(Node**);
+void selectionSortAnimation(Node**);
+void insertionSortAnimation(Node**);
+void shellSortAnimation(Node**);
 
 #endif
