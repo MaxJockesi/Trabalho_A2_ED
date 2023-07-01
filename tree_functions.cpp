@@ -1,5 +1,8 @@
 #include <iostream>
+#include <fstream>
 #include "tree_functions.h"
+
+using namespace std;
 
 struct Node* newNode(int iNewData)
 {
@@ -8,6 +11,7 @@ struct Node* newNode(int iNewData)
     ptrProx->iPayload = iNewData; 
     ptrProx->ptrRight = nullptr;
     ptrProx->ptrLeft = nullptr;
+    return ptrProx;
 }
 
 void insertData(Node** ptrRoot, int iNewData)
@@ -32,7 +36,7 @@ void deleteData(Node **ptrRoot, int iDelete)
     if(*ptrRoot == nullptr)
         return;
     
-    // Caso em que o head tem que ser apagado
+    // Caso em que o head tem que ser apagado (só ocorre quando a raiz da árvore vai ser apagada)
     if((*ptrRoot)->iPayload == iDelete)
     {
         Node *ptrTmp = findReplace(*ptrRoot);
@@ -41,15 +45,17 @@ void deleteData(Node **ptrRoot, int iDelete)
         return;
     }
 
+    // Caso em que o filho a direita do head vai ser apagado
     if((*ptrRoot)->ptrRight != nullptr)
         if((*ptrRoot)->ptrRight->iPayload == iDelete)
         {
             Node *ptrTmp = findReplace((*ptrRoot)->ptrRight);
             free((*ptrRoot)->ptrRight);
-            (*ptrRoot)->ptrRight= ptrTmp;
+            (*ptrRoot)->ptrRight = ptrTmp;
             return;
         }
 
+    // Caso em que o filho a esquerda do head vai ser apagado
     if((*ptrRoot)->ptrLeft != nullptr)
         if((*ptrRoot)->ptrLeft->iPayload == iDelete)   
         {
@@ -59,38 +65,42 @@ void deleteData(Node **ptrRoot, int iDelete)
             return;
         }   
 
+    // Nenhum caso anterior ocorreu: se move na arvore na direção certa
     if(iDelete >= (*ptrRoot)->iPayload)
         deleteData(&(*ptrRoot)->ptrRight, iDelete);
     else
-        deleteData(&(*ptrRoot)->ptrRight, iDelete);
+        deleteData(&(*ptrRoot)->ptrLeft, iDelete);
 
     return;
 }
 
+// Encontra o substituto correto para o node deletado e ajeita os ponteiros 
 Node* findReplace(Node* ptrRoot)
 {
-    Node *ptrIter = ptrRoot;
-    // Casos em que o node tem 0 ou 1 filhos
-    if(ptrRoot->ptrLeft == nullptr)
-        return ptrRoot->ptrRight;
-
-    if(ptrRoot->ptrLeft->ptrRight == nullptr)
-    {
-        ptrRoot->ptrLeft->ptrRight = ptrRoot->ptrRight;
+    
+    // Casos em que o node tem 0 filhos ou só filho à esquerda
+    if(ptrRoot->ptrRight == nullptr) 
         return ptrRoot->ptrLeft;
+
+    // Tem um filho à direita que nao tem filho à esquerda
+    if(ptrRoot->ptrRight->ptrLeft == nullptr)
+    {
+        ptrRoot->ptrRight->ptrLeft = ptrRoot->ptrLeft;
+        return ptrRoot->ptrRight;
     }
     
-    // Caso em que tem dois filhos
-    ptrIter = ptrIter->ptrLeft;
-    while(ptrIter->ptrRight->ptrRight != nullptr)
-        ptrIter = ptrIter->ptrRight;
+    // Tem um filho à direita que tem filho à esquerda
+    Node *ptrIter = ptrRoot;
+    ptrIter = ptrIter->ptrRight;
+    while(ptrIter->ptrLeft->ptrLeft != nullptr) // vai seguindo até o penultimo do "galho" à esquerda
+        ptrIter = ptrIter->ptrLeft;
 
     // Ajuste dos filhos 
-    Node *ptrCopy = ptrIter->ptrRight->ptrLeft;
-    ptrIter->ptrRight->ptrRight = ptrRoot->ptrRight;
-    ptrIter->ptrRight->ptrLeft = ptrRoot->ptrLeft;
-    ptrRoot = ptrIter->ptrRight;
-    ptrIter->ptrRight = ptrCopy;
+    Node *ptrCopy = ptrIter->ptrLeft->ptrRight;
+    ptrIter->ptrLeft->ptrLeft = ptrRoot->ptrLeft;
+    ptrIter->ptrLeft->ptrRight = ptrRoot->ptrRight;
+    ptrRoot = ptrIter->ptrLeft; // substituto para o node deletado
+    ptrIter->ptrLeft = ptrCopy;
     return ptrRoot;
 }
 
@@ -124,6 +134,7 @@ void convertToList(Node **ptrRoot)
 
     if (ptrTmpRight == nullptr)
         return;
+
     else
     {
         // Converter a sub-árvore da direita em lista
@@ -135,4 +146,44 @@ void convertToList(Node **ptrRoot)
         ptrTmpLeft->ptrRight = ptrTmpRight;
         ptrTmpRight->ptrLeft = ptrTmpLeft;
     }
+}
+
+Node *createTree()
+{
+    Node *ptrRoot = nullptr;
+    char chStop = 'Y'; // para encerrar o pedido de variáveis
+    int iNewData;
+    do 
+    {
+        cout << "Type an integer" << endl;
+        cin >> iNewData;
+        insertData(&ptrRoot, iNewData); // insere o dado na arvore
+        cout << "End with the process? (Y/Any)" << endl; 
+        cin >> chStop;
+    } 
+    while(chStop != 'Y' && chStop != 'y'); // enquanto o usuario não digitar Y quando pedido, continua pedindo dados
+    return ptrRoot;
+}
+
+Node* readTree(char* strFileName)
+{   
+    // Checa se o arquivo foi aberto 
+    // Se não foi, printa uma mensagem de erro e retorna
+    fstream file;
+    file.open(strFileName);
+    if(!file.is_open())
+    {
+        cout << "ERROR: Unable to open the archive." << endl;
+        return nullptr;
+    }
+    // Lê os dados do arquivo considerando inteiros separados por espaços ou linhas
+    int iData;
+    Node *ptrRoot = nullptr; // cria a árvore
+    ifstream infile(strFileName);
+    while(infile >> iData)
+        insertData(&ptrRoot, iData); // insere na árvore
+
+    // Fecha o arquivo e retorna a árvore construida
+    file.close();
+    return ptrRoot;
 }

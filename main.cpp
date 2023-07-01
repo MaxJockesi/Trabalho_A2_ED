@@ -1,38 +1,153 @@
 #include <iostream>
 #include <limits>
 #include <chrono>
+
 //Incluir bibliotecas próprias 
-/*
+
+#include "tree_operations.h"
+#include "sorting_algorithms.h"
 #include "tree_functions.h"
-#include "border_functions.h"
-*/
+
 using namespace std;
 using namespace chrono;
 
-//Tratamento de exceção na inserção de dados
-void FailInsertion()
+//Variáveis globais(Slots de árvores)
+struct Node* ptrTree1 = nullptr;
+struct Node* ptrTree2 = nullptr;
+struct Node* ptrTree3 = nullptr;
+struct Node* ptrTree4 = nullptr;
+struct Node* ptrTree5 = nullptr;
+
+//Teste - apagar depois 
+void principal()
 {
-    if(cin.fail())
+    for(int i = 0; i < 5; i++)
     {
-        cin.clear();
-        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+        insertData(&ptrTree1, i);
     }
-    return;
+
+    printTree(ptrTree1);
 }
 
-//Função para determinar tempo de execução (em milisegundos) de uma operação
-void TimeExecution()
+/*
+As funções time execution são usadas para cálculo da execução das funções.
+É passado um ponteiro da função, a fim de tornar o código menos verboso.
+*/
+
+//Cálculo de tempo para funções de ponteiro duplo(Sorts)
+void TimeExecutionSorts(Node* ptrRoot, void (*function)(Node**))
 {
-    /*auto timeStop = high_resolution_clock::now();
+    auto timeStart = high_resolution_clock::now();
+    
+    function(&ptrRoot);
+                
+    auto timeStop = high_resolution_clock::now();
     auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
                 
     cout << "Time of execution: " << timeDuration.count()
     << " milliseconds" << endl;
-    return;*/
+    return;
 }
 
+//Para funções de ponteiro simples
+void TimeExecution(Node* ptrRoot, void (*function)(Node*))
+{
+    auto timeStart = high_resolution_clock::now();
+    
+    function(ptrRoot);
+                
+    auto timeStop = high_resolution_clock::now();
+    auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
+                
+    cout << "Time of execution: " << timeDuration.count()
+    << " milliseconds" << endl;
+    return;
+}
+
+//Função que calcula tempo para inteiros - função int
+int TimeExecution(Node* ptrRoot, int (*function)(Node*))
+{
+    auto timeStart = high_resolution_clock::now();
+    int iNumber = function(ptrRoot);
+                
+    auto timeStop = high_resolution_clock::now();
+    auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
+                
+    cout << "Time of execution: " << timeDuration.count()
+    << " milliseconds" << endl;
+    cout << endl;
+    return iNumber;
+}
+
+//Função que calcula tempo para inteiros - função void
+void TimeExecution(Node** ptrRoot, int iNumber, void (*function)(Node**, int))
+{
+    auto timeStart = high_resolution_clock::now();
+    function(ptrRoot, iNumber);
+                
+    auto timeStop = high_resolution_clock::now();
+    auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
+                
+    cout << "Time of execution: " << timeDuration.count()
+    << " milliseconds" << endl;
+    cout << endl;
+    return;
+}
+
+//Cálculo de tempo para função void com inteiro e ponteiro simples
+void TimeExecution(Node* ptrRoot, int iNumber, void (*function)(Node*, int))
+{
+    auto timeStart = high_resolution_clock::now();
+    function(ptrRoot, iNumber);
+                
+    auto timeStop = high_resolution_clock::now();
+    auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
+                
+    cout << "Time of execution: " << timeDuration.count()
+    << " milliseconds" << endl;
+    cout << endl;
+    return;
+}
+
+
+//Função que calcula tempo para inteiros - função bool
+bool TimeExecution(Node* ptrRoot, bool (*function)(Node*))
+{
+    auto timeStart = high_resolution_clock::now();
+    bool bverify = function(ptrRoot);
+                
+    auto timeStop = high_resolution_clock::now();
+    auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
+                
+    cout << "Time of execution: " << timeDuration.count()
+    << " milliseconds" << endl;
+    cout << endl;
+    return bverify;
+}
+
+
+//Tratamento de exceção na inserção de inteiros
+int CinInsertion()
+{
+    int iNumber;
+    cin >> iNumber;
+    
+    if(cin.fail())
+    {
+        while(cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+            cin >> iNumber;
+        }
+    }
+    
+    return iNumber;
+}
+
+
 //Conseguindo um ponteiro na tela - até 5 árvores na memória
-struct Node* ChooseRoot()
+struct Node** ChooseRoot()
 {
     
     cout << "Choose a integer your tree from 1 to 5." << endl << endl;
@@ -46,23 +161,20 @@ struct Node* ChooseRoot()
     
     while(true)
     {
-        int iChosenNumber;
-        cin >> iChosenNumber;
-        
-        FailInsertion();
+        int iChosenNumber = CinInsertion();
         
         switch(iChosenNumber)
         {
             case 1:
-                return ptrTree1;
+                return &ptrTree1;
             case 2:
-                return ptrTree2;
+                return &ptrTree2;
             case 3:
-                return ptrTree3;
+                return &ptrTree3;
             case 4:
-                return ptrTree4;
+                return &ptrTree4;
             case 5:
-                return ptrTree5;
+                return &ptrTree5;
             default:
                 cout << "Invalid option. Choose an integer from 1 to 5." << endl
                 << endl;
@@ -114,73 +226,72 @@ void TreeCreation()
     
     while(true)
     {
-        int ioption;
-        cin >> ioption;
-        
-        FailInsertion();
+        int ioption = CinInsertion();
         
         switch(ioption)
         {
             //Criar árvore por arquivo-texto
             case 1:
             {    
-                auto timeStart = high_resolution_clock::now();
+                struct Node** ptrInterface = ChooseRoot();
+                char* NameFile;
+                cout << "Input the adress of your file: " << endl;
+                cin >> NameFile;
                 
-            
+                auto timeStart = high_resolution_clock::now();
+                *ptrInterface = readTree(NameFile);
+                
+                auto timeStop = high_resolution_clock::now();
+                auto timeDuration = duration_cast<seconds>(timeStop - timeStart);
+                
+                cout << "Time of execution: " << timeDuration.count()
+                << " seconds" << endl;
                 return;
             }    
             //Criar árvore pela interface
             case 2:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 auto timeStart = high_resolution_clock::now();
                 
+                *ptrInterface = createTree();
+                auto timeStop = high_resolution_clock::now();
+                auto timeDuration = duration_cast<seconds>(timeStop - timeStart);
+                
+                cout << "Time of execution: " << timeDuration.count()
+                << " seconds" << endl;
                 return;
             }    
             // Insere um novo elemento na árvore
             case 3:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                int iNewelement;
+                struct Node** ptrInterface = ChooseRoot();
                 
                 cout << "Type a number to be a new element for the " 
                 "choosen tree: ";
-                cin >> iNewelement;
+                int iNewelement = CinInsertion();
                 
-                auto timeStart = high_resolution_clock::now();
-                insertData(&ptrInterface, iNewelement);
-                
-                auto timeStop = high_resolution_clock::now();
-                auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
-                
-                cout << "Time of execution: " << timeDuration.count()
-                << " milliseconds" << endl;
-                
+                TimeExecution(ptrInterface, iNewelement, &insertData);
                 return;
             }    
             // Deleta um elemento da árvore    
             case 4:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 int idelelement;
                 
                 cout << "Type a number to be deleted for the "
                 "choosen tree one time: ";
                 cin >> idelelement;
                 
-                auto timeStart = high_resolution_clock::now();
-                deleteData(&ptrInterface, idelelement);
-                
-                auto timeStop = high_resolution_clock::now();
-                auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
-                
-                cout << "Time of execution: " << timeDuration.count()
-                << " milliseconds" << endl;
+                TimeExecution(ptrInterface, idelelement, &deleteData);
                 return;
             }    
             default:
+            {
                 cout << "Invalid option. Choose an integer from 1 to 4." << endl
                 << endl;
+            }    
         }
     }
 }
@@ -192,92 +303,62 @@ void TreeInformation()
     cout << "Tree's information: Type the number of the "
     "function of your choose." << endl;
     
-    cout << "1. Get the tree's height" << endl;
+    cout << "1. Get the tree's height." << endl;
     cout << "2. Get the tree's size." << endl;
     cout << "3. Get a an element's adress from a tree." << endl;
-    cout << "4. Verify if a tree is complete" << endl;
-    cout << "5. Verify if a tree is perfect" << endl;
-    cout << "6. Display tree by BFS(Breadth-First Search)" << endl;
+    cout << "4. Verify if a tree is complete." << endl;
+    cout << "5. Verify if a tree is perfect." << endl;
+    cout << "6. Display tree by BFS(Breadth-First Search)." << endl;
     cout << endl;
     
     while(true)
     {
-        int ioption;
-        cin >> ioption;
+        int ioption = CinInsertion();
         
-        FailInsertion();
-        
+        //Escolhendo o ponteiro e realizando as funções de informção da árovre
         switch(ioption)
         {
+            //Altura da árvore
             case 1:
             {
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
+                int iheight = TimeExecution(*ptrInterface, &heightTree);
                 
-                auto timeStart = high_resolution_clock::now();
-                
-                int iheight = heightTree(ptrInterface);
                 cout << "Tree's height: " << iheight << endl;
-                
-                auto timeStop = high_resolution_clock::now();
-                auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
-                
-                cout << "Time of execution: " << timeDuration.count()
-                << " milliseconds" << endl;
                 return;
                 
             }
             //Tamanho da árvore
             case 2:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                
-                auto timeStart = high_resolution_clock::now();
-                int itreesize = sizeTree(ptrInterface);
-                
+                struct Node** ptrInterface = ChooseRoot();
+                int itreesize = TimeExecution(*ptrInterface, &sizeTree);
                 cout << "Tree's size: " << itreesize << endl;
-                
-                auto timeStop = high_resolution_clock::now();
-                auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
-                
-                cout << "Time of execution: " << timeDuration.count()
-                << " milliseconds" << endl;
                 return;
-            }    
+            }
+            //Endereços de um número inteiro em uma árvore
             case 3:  
             {
-                int iSearchNum;
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 
                 cout << "Type a integer number you want to find in the choosen " 
-                "tree: "
-                << endl;
+                "tree: "<< endl;
                 
                 //Verificação do número
-                cin >> iSearchNum;
-                while(cin.fail())
-                {
-                    cout << "Invalid insertion(Has to be a integer number)." << endl;
-                    FailInsertion();
-                }
+                int iSearchNum = CinInsertion();
                 
                 //Resultado
                 cout << "Adresses with the number at the tree: " << endl;
-                auto timeStart = high_resolution_clock::now();
-                findTree(ptrInterface, iSearchNum);
-                
-                auto timeStop = high_resolution_clock::now();
-                auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
-                
-                cout << "Time of execution: " << timeDuration.count()
-                << " milliseconds" << endl;
+                TimeExecution(*ptrInterface, iSearchNum, &findTree);
                 cout << endl;
                 return;
-            }    
+            }
+            //Verifica se árvore é completa
             case 4:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                auto timeStart = high_resolution_clock::now();
-                if(completeTree(ptrInterface))
+                struct Node** ptrInterface = ChooseRoot();
+                bool biscomplete = TimeExecution(*ptrInterface, &completeTree);
+                if(biscomplete == true)
                 {
                     cout << "The tree is complete." << endl;
                 }
@@ -285,18 +366,14 @@ void TreeInformation()
                 {
                     cout << "The tree isn't complete." << endl;
                 }
-                
-                auto timeStop = high_resolution_clock::now();
-                auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
-                
-                cout << "Time of execution: " << timeDuration.count()
-                << " milliseconds" << endl;
                 return;
+            }
+            //Verifica se árvore é perfeita
             case 5:
             {
-                struct Node* ptrInterface = ChooseRoot();
-                auto timeStart = high_resolution_clock::now();
-                if(perfectTree(ptrInterface))
+                struct Node** ptrInterface = ChooseRoot();
+                bool bisperfect = TimeExecution(*ptrInterface, &perfectTree);
+                if(bisperfect == true)
                 {
                     cout << "The tree is perfect." << endl;
                 }
@@ -304,31 +381,21 @@ void TreeInformation()
                 {
                     cout << "The tree isn't perfect." << endl;
                 }
-                
-                auto timeStop = high_resolution_clock::now();
-                auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
-                
-                cout << "Time of execution: " << timeDuration.count()
-                << " milliseconds" << endl;
                 return;
-            }    
+            }
+            // Imprime a árvore por BFS
             case 6:
             {
-                auto timeStart = high_resolution_clock::now();
-                struct Node* ptrInterface = ChooseRoot();
+                struct Node** ptrInterface = ChooseRoot();
                 cout << "Printing tree by BFS: " << endl << endl;
-                printTree(ptrInterface);
-                
-                auto timeStop = high_resolution_clock::now();
-                auto timeDuration = duration_cast<milliseconds>(timeStop - timeStart);
-                
-                cout << "Time of execution: " << timeDuration.count()
-                << " milliseconds" << endl;
+                TimeExecution(*ptrInterface, &printTree);
                 return;
-            }   
+            }
             default:
+            {
                 cout << "Invalid option. Choose an integer from 1 to 6." << endl
                 << endl;
+            }    
         }
     }
 }
@@ -341,44 +408,83 @@ void TreeOrder()
     "function of your choose." << endl;
     cout << "The sorts will convert the tree in a list to do the sort." << endl;
     
-    cout << "1. Sort by Bubble Sort" << endl;
-    cout << "2. Sort by Selection Sort" << endl;
-    cout << "3. Sort by Insertion Sort" << endl;
-    cout << "4. Sort by Shell Sort" << endl;
-    cout << "5. Sort visualization(Bubble)" << endl;
-    cout << "6. Sort visualization(Selection) " << endl;
-    cout << "7. Sort visualization(Insertion) " << endl;
-    cout << "8. Sort visualization(Shell) " << endl;
+    cout << "1. Sort by Bubble Sort." << endl;
+    cout << "2. Sort by Selection Sort." << endl;
+    cout << "3. Sort by Insertion Sort." << endl;
+    cout << "4. Sort by Shell Sort." << endl;
+    cout << "5. Sort visualization(Bubble)." << endl;
+    cout << "6. Sort visualization(Selection). " << endl;
+    cout << "7. Sort visualization(Insertion). " << endl;
+    cout << "8. Sort visualization(Shell). " << endl;
     cout << endl;
     
     while(true)
     {
-        int ioption;
-        cin >> ioption;
-        
-        FailInsertion();
+        int ioption = CinInsertion();
         
         switch(ioption)
         {
+            //Bubble Sort
             case 1:
+            {
+                struct Node** ptrInterface = ChooseRoot();
+                TimeExecutionSorts(*ptrInterface, &bubbleSort);
+                cout << "Ordened tree. See it now." << endl;
                 return;
+            }    
+            //Selection Sort    
             case 2:
+            {
+                struct Node** ptrInterface = ChooseRoot();
+                TimeExecutionSorts(*ptrInterface, &selectionSort);
+                cout << "Ordened tree. See it now." << endl;
                 return;
-            case 3:  
+            }    
+            //Insertion Sort    
+            case 3:
+            {
+                struct Node** ptrInterface = ChooseRoot();
+                TimeExecutionSorts(*ptrInterface, &insertionSort);
+                cout << "Ordened tree. See it now." << endl;
                 return;
+            }    
+            //Shell Sort    
             case 4:
+            {
+                struct Node** ptrInterface = ChooseRoot();
+                TimeExecutionSorts(*ptrInterface, &shellSort);
+                cout << "Ordened tree. See it now." << endl;
                 return;
+            }    
             case 5:
+            {
+                struct Node** ptrInterface = ChooseRoot();
+                
+                
                 return;
+            }    
             case 6:
+            {
+                struct Node** ptrInterface = ChooseRoot(); 
+                
+                
                 return;
+            }    
             case 7:
+            {
+                struct Node** ptrInterface = ChooseRoot();
                 return;
+            }    
             case 8:
+            {
+                struct Node** ptrInterface = ChooseRoot();
                 return;
+            }    
             default:
+            {
                 cout << "Invalid option. Choose an integer from 1 to 8." << endl
                 << endl;
+            }    
         }
     }
 }
@@ -397,11 +503,7 @@ void FirstOperation()
     while(true)
     {
         //Loop para escolha de opções
-        int ientrance;
-        cin >> ientrance;
-        
-        //Tratamento de Exçeção - Algo sem ser inteiro
-        FailInsertion();
+        int ientrance = CinInsertion();
        
         //Opções primárias 
         switch(ientrance)
@@ -420,11 +522,15 @@ void FirstOperation()
         }
     }
 }
+
 /*
-Execução do sistema 
+Driver Code
 */
 int main()
 {
+    //Teste
+    principal();
+    
     //Entrada inicial do sistema 
     cout << "Welcome to Tree data struct explorer!" << endl << endl;
     
@@ -435,6 +541,13 @@ int main()
         FirstOperation();
         bexecution = Exitfunction();
     }
-
+    
+    //Liberar memória
+    free(ptrTree1);
+    free(ptrTree2);
+    free(ptrTree3);
+    free(ptrTree4);
+    free(ptrTree5);
+    
     return 0;
 }
