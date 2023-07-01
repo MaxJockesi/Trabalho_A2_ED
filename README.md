@@ -23,15 +23,21 @@ O Objetivo do trabalho é construir um explorador de árvores. Ele dispõe das s
 17. Extra: Representação gráfica da ordenação
 
 <h2>Instalação</h2>
+
 Faça na pasta onde o repositório ficará:
+
 1. git clone https://github.com/MaxJockesi/Trabalho_A2_ED.git
 
 <h3>Linux</h3>
+
 1. sudo apt install libsdl2-dev pkg-config
+
 2. g++ tree_functions.cpp border_functions.cpp tree_operations.cpp sorting_algorithms.cpp main.cpp -o "main.exe" $(pkg-config --cflags --libs sdl2)
+
 3. ./main.exe
 
 <h3>Windows</h3>
+
 1. g++ -Isrc/include -Lsrc/lib -o main tree_functions.cpp border_functions.cpp tree_operations.cpp sorting_algorithms.cpp  main.cpp -lmingw32 -lSDL2main -lSDL2
 
 <h2>Integrantes</h2>
