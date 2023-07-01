@@ -410,3 +410,62 @@ void bubbleSortAnimation(Node** ptrRoot)
     SDL_RenderPresent(ptrRenderer);
     SDL_Delay(1000);
 }
+
+void selectionSortAnimation(Node** ptrRoot) 
+{
+    int iSize = sizeOfList(*ptrRoot);
+    int iMax = maxOfList(*ptrRoot);
+
+    SDL_Window* window = nullptr;
+    SDL_Renderer* ptrRenderer = nullptr;
+    SDL_CreateWindowAndRenderer(
+        1500, 720, 0,
+        &window, &ptrRenderer);
+
+    SDL_RenderSetScale(ptrRenderer, 1500/iSize, 1);
+
+    if (((*ptrRoot) ==  nullptr) || ((*ptrRoot)->ptrRight ==  nullptr))
+        return;
+    
+    // Node que irá localizar o loop 1
+    Node* ptrCurrent = *ptrRoot;
+    while (ptrCurrent->ptrRight != nullptr)
+    {
+        // primeiro, mínimo e localizador do loop 2 da sub-lista
+        Node* ptrFirst = ptrCurrent;
+        Node* ptrMin = ptrFirst;
+        Node* ptrTmp = ptrFirst;
+        while (ptrTmp != nullptr)
+        {
+            // Limpar a tela
+            SDL_SetRenderDrawColor(ptrRenderer, 255, 255, 255, 255);
+            
+            SDL_RenderClear(ptrRenderer);
+
+            // Desenhar o estado do sort
+            drawState(*ptrRoot, ptrRenderer);
+
+            // Mostrar a tela
+            SDL_RenderPresent(ptrRenderer);
+            SDL_Delay(1);
+
+            if (ptrTmp->iPayload < ptrMin->iPayload)
+            {
+                ptrMin = ptrTmp;
+            }
+            ptrTmp = ptrTmp->ptrRight;
+        }
+        swapNodes(ptrRoot, ptrFirst, ptrMin);
+        ptrCurrent = ptrMin->ptrRight;
+    }
+    SDL_SetRenderDrawColor(ptrRenderer, 0, 255, 0, 255);
+                
+    SDL_RenderClear(ptrRenderer);
+
+    // Desenhar o estado do sort
+    drawState(*ptrRoot, ptrRenderer);
+
+    // Mostrar a tela
+    SDL_RenderPresent(ptrRenderer);
+    SDL_Delay(1000);
+}
