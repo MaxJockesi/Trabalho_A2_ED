@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "sorting_algorithms.h"
 
 using namespace std;
 
