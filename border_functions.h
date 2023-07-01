@@ -1,4 +1,7 @@
-#include "tree_functions.h"
+#ifndef BORDER_FUNCTIONS_H
+#define BORDER_FUNCTIONS_H
+
+#include "node.h"
 
 struct BorderElement{
     Node* ptrData;
@@ -14,3 +17,5 @@ struct Border{
 Border* newBorder();
 void insertBorder(Border*, Node*, int);
 void popBorder(Border*);
+
+#endif
