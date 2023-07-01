@@ -1,6 +1,7 @@
 #ifndef TREE_FUNCTIONS_H
 #define TREE_FUNCTIONS_H
 
+#include <string>
 #include <iostream>
 
 struct Node
@@ -14,8 +15,8 @@ struct Node* newNode(int);
 void insertData(Node**, int);
 void deleteData(Node**, int);
 struct Node* findReplace(Node*);
-void convertToList(Node **);
+Node* convertToList(Node **);
 Node *createTree();
-Node* readTree(char* strFileName);
+Node* readTree(std::string strFileName);
 
 #endif
