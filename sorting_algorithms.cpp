@@ -1,7 +1,7 @@
 #define SDL_MAIN_HANDLED
 
 #include <iostream>
-#include "tree_functions.h"
+#include "sorting_algorithms.h"
 #include <SDL2/SDL.h>
 
 using namespace std;

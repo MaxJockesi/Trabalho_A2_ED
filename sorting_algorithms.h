@@ -4,7 +4,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "tree_functions.h"
+#include "node.h"
 
 #include <iostream>
 
