@@ -343,3 +343,70 @@ void drawState(Node* ptrRoot, SDL_Renderer* ptrRenderer)
         ptrTmp = ptrTmp->ptrRight;
     }
 }
+
+void bubbleSortAnimation(Node** ptrRoot) 
+{
+    int iSize = sizeOfList(*ptrRoot);
+    int iMax = maxOfList(*ptrRoot);
+
+    SDL_Window* window = nullptr;
+    SDL_Renderer* ptrRenderer = nullptr;
+    SDL_CreateWindowAndRenderer(
+        1500, 720, 0,
+        &window, &ptrRenderer);
+
+    SDL_RenderSetScale(ptrRenderer, 1500/iSize, 1);
+
+    if (((*ptrRoot) ==  nullptr) || ((*ptrRoot)->ptrRight ==  nullptr))
+        return;
+    
+    bool bFinished = false;
+    Node *ptrCurrent;
+
+    // Criamos um Node proibido
+    Node *ptrForbidden = nullptr;
+
+    while (bFinished == false)
+    {
+        bFinished = true;
+        ptrCurrent = *ptrRoot;
+
+        // ptrCurrent irá até imediatamente antes do proibido
+        while (ptrCurrent->ptrRight != ptrForbidden)
+        {
+            // Limpar a tela
+            SDL_SetRenderDrawColor(ptrRenderer, 255, 255, 255, 255);
+            
+            SDL_RenderClear(ptrRenderer);
+
+            // Desenhar o estado do sort
+            drawState(*ptrRoot, ptrRenderer);
+
+            // Mostrar a tela
+            SDL_RenderPresent(ptrRenderer);
+            SDL_Delay(1);
+            
+            if (ptrCurrent->iPayload > ptrCurrent->ptrRight->iPayload)
+            {
+                swapNodes(ptrRoot, ptrCurrent, ptrCurrent->ptrRight);
+                bFinished = false;
+            }
+            else
+            {
+            ptrCurrent = ptrCurrent->ptrRight;
+            }
+        }
+        // O proibido irá passar do nullptr até o segundo da lista
+        ptrForbidden = ptrCurrent;
+    }
+    SDL_SetRenderDrawColor(ptrRenderer, 0, 255, 0, 255);
+                
+    SDL_RenderClear(ptrRenderer);
+
+    // Desenhar o estado do sort
+    drawState(*ptrRoot, ptrRenderer);
+
+    // Mostrar a tela
+    SDL_RenderPresent(ptrRenderer);
+    SDL_Delay(1000);
+}
